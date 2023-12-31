@@ -29,13 +29,4 @@ public class InventoryWrapper : IEnumerable<Product>
         throw new NotImplementedException();
     }
 
-    public void SaveOnXmlFile(string filePath)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static InventoryWrapper LoadFromXmlFile(string filePath)
-    {
-        throw new NotImplementedException();
-    }
 }
