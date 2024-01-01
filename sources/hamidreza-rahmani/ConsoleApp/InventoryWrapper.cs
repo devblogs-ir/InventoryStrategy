@@ -1,5 +1,6 @@
-﻿using ConsoleApp.Models;
-using System.Collections;
+﻿using System.Collections;
+using ConsoleApp.Enumerators;
+using ConsoleApp.Models;
 
 namespace ConsoleApp;
 
@@ -14,19 +15,27 @@ public class InventoryWrapper : IEnumerable<Product>
         Products = new List<Product>();
     }
 
-    public void Add(Product product)
-    {
-        throw new NotImplementedException();
-    }
-
     public IEnumerator<Product> GetEnumerator()
     {
-        throw new NotImplementedException();
+        if (_managementApproach.Equals(InventoryManagementApproach.FirstInFirstOut))
+        {
+            FIFOEnumerator fifo = new(Products);
+            while (fifo.MoveNext()) yield return fifo.Current;
+        }
+        else
+        {
+            LIFOEnumerator lifo = new(Products);
+            while (lifo.MoveNext()) yield return lifo.Current;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException();
+        return GetEnumerator();
     }
 
+    public void Add(Product product)
+    {
+        Products.Add(product);
+    }
 }
