@@ -1,31 +1,39 @@
-﻿using ConsoleApp.Models;
-using System.Collections;
+﻿using System.Collections;
+using ConsoleApp.Models;
 
 namespace ConsoleApp.Enumerators;
 
 public class FIFOEnumerator : IEnumerator<Product>
 {
+    private readonly List<Product> _products = new();
+    private int _currentIndex;
+
     public FIFOEnumerator(List<Product> products)
     {
-        
+        _currentIndex = -1;
+        _products = products;
     }
 
-    public Product Current => throw new NotImplementedException();
+    public Product Current => _products[_currentIndex];
 
-    object IEnumerator.Current => throw new NotImplementedException();
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        _products.Clear();
     }
 
     public bool MoveNext()
     {
-        throw new NotImplementedException();
+        if (_currentIndex >= _products.Count - 1)
+            return false;
+
+        _currentIndex++;
+        return true;
     }
 
     public void Reset()
     {
-        throw new NotImplementedException();
+        _currentIndex = -1;
     }
 }
