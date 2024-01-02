@@ -1,4 +1,5 @@
 ﻿using InventoryStrategy.Entities;
+using InventoryStrategy.Enumerators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,17 +21,35 @@ public class InventoryWrapper : IEnumerable<Product>
 
     public void Add(Product product)
     {
-        throw new NotImplementedException();
+        Products.Add(product);
     }
 
     public IEnumerator<Product> GetEnumerator()
     {
-        throw new NotImplementedException();
+        if (_managementApproach == InventoryManagementApproach.LastInFirstOut)
+        {
+            var lifo = new LIFOEnumerator(Products);
+            while (lifo.MoveNext())
+            {
+
+                yield return lifo.Current;
+            }
+
+        }
+        else
+        {
+            var fifo = new FIFOEnumerator(Products);
+
+            while (fifo.MoveNext())
+            {
+                yield return fifo.Current;
+            }
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException();
+        return GetEnumerator();
     }
 }
 
