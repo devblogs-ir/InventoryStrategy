@@ -1,4 +1,5 @@
-﻿using ConsoleApp.Models;
+﻿using ConsoleApp.Enumerators;
+using ConsoleApp.Models;
 using System.Collections;
 
 namespace ConsoleApp;
@@ -6,7 +7,6 @@ namespace ConsoleApp;
 public class InventoryWrapper : IEnumerable<Product>
 {
     public InventoryManagementApproach _managementApproach;
-
     public List<Product> Products;
 
     public InventoryWrapper(InventoryManagementApproach managementApproach)
@@ -17,17 +17,21 @@ public class InventoryWrapper : IEnumerable<Product>
 
     public void Add(Product product)
     {
-        throw new NotImplementedException();
+        Products.Add(product);
     }
 
     public IEnumerator<Product> GetEnumerator()
     {
-        throw new NotImplementedException();
+        switch (_managementApproach)
+        {
+            case InventoryManagementApproach.LastInFirstOut:
+                return new LIFOEnumerator(Products);
+            default: return new FIFOEnumerator(Products);
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
         throw new NotImplementedException();
     }
-
 }
