@@ -21,29 +21,16 @@ public class FIFOEnumerator : IEnumerator<Product>
 
     object IEnumerator.Current => Current;
 
-    public void Dispose()
-    {
-        products.Clear();
-    }
+    public void Dispose() => products.Clear();
+    
 
     public bool MoveNext()
     {
-        int index = ++currentIndext;
-        int count = products.Count;
-
-        if (index < count)
-        {
-            currentIndext = index;
-            return true;
-        }
-
-        currentIndext = count;
-        return false;
+        currentIndext++;
+        return currentIndext < products.Count;
     }
 
-    public void Reset()
-    {
-        currentIndext = -1;
-    }
+    public void Reset() => currentIndext = -1;
+    
 }
 

@@ -15,34 +15,21 @@ public class LIFOEnumerator : IEnumerator<Product>
     public LIFOEnumerator(List<Product> _products)
     {
         products = _products;
-        currentIndext = -1;
+        currentIndext = _products.Count();
     }
     public Product Current => products[currentIndext];
 
     object IEnumerator.Current => Current;
 
     public void Dispose()
-    {
-        products.Clear();
-    }
+       => products.Clear();
+    
 
     public bool MoveNext()
-    {
-        int Index = currentIndext;
-        int count = products.Count;
-
-        if ((Index < count) && (Index > -1))
-        {
-            return true;
-        }
-
-        Index = count;
-        return false;
-    }
+       => currentIndext< products.Count && currentIndext > -1;
 
     public void Reset()
-    {
-        currentIndext = -1;
-    }
+       => currentIndext = -1;
+    
 }
 

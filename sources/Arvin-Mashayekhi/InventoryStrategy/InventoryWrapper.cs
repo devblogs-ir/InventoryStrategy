@@ -20,9 +20,7 @@ public class InventoryWrapper : IEnumerable<Product>
     }
 
     public void Add(Product product)
-    {
-        Products.Add(product);
-    }
+       => Products.Add(product);
 
     public IEnumerator<Product> GetEnumerator()
     {
@@ -47,9 +45,7 @@ public class InventoryWrapper : IEnumerable<Product>
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    
 }
 
