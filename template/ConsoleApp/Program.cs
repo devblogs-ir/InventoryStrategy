@@ -4,16 +4,20 @@ namespace ConsoleApp;
 
 public class Program
 {
+    private const InventoryManagementApproach approach = InventoryManagementApproach.LastInFirstOut;
+
     static void Main(string[] args)
     {
-        var inventory = new InventoryWrapper(InventoryManagementApproach.FirstInFirstOut);
+        InventoryWrapper inventory = new(approach)
+        {
+            new Product(1, "IPhone1"),
+            new Product(2, "IPhone2"),
+            new Product(3, "IPhone3"),
+            new Product(4, "IPhone4")
+        };
 
-        inventory.Add(new Product(1, "IPhone"));
-        inventory.Add(new Product(2, "IPhone"));
-        inventory.Add(new Product(1, "IPhone"));
-        inventory.Add(new Product(1, "IPhone"));
+        Console.WriteLine($"Enumerating products using a stack approach {approach}:");
 
-        Console.WriteLine("Enumerating products using a stack approach (LIFO):");
         foreach (var product in inventory)
         {
             Console.WriteLine(product);
