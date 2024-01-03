@@ -5,20 +5,19 @@ namespace InventoryStrategy.Console.Enumerators
 {
     public class LIFOEnumerator : IEnumerator<IProduct>
     {
-        private List<IProduct> products;
+        private List<IProduct> _products;
         private int currentIndex;
 
         public LIFOEnumerator(List<IProduct> products)
         {
-            this.products = products;
+            _products = products;
             currentIndex = products.Count;
         }
-
-        public IProduct Current => products[currentIndex];
+        public IProduct Current => _products[currentIndex];
         object IEnumerator.Current => Current;
         public void Dispose()
         {
-            products.Clear();
+            _products.Clear();
         }
         public bool MoveNext()
         {
@@ -27,7 +26,7 @@ namespace InventoryStrategy.Console.Enumerators
         }
         public void Reset()
         {
-            currentIndex = products.Count;
+            currentIndex = _products.Count;
         }
     }
 }

@@ -31,7 +31,7 @@ public class Program
             new Laptop(4, "Laptop4")
         };
 
-        Console.WriteLine($"Enumerating products using a stack approach {_LIFOApproach}:");
+        Console.WriteLine($"Enumerating products using a stack approach {_FIFOApproach}:");
 
         foreach (var product in inventoryLaptop)
         {

@@ -6,21 +6,18 @@ namespace InventoryStrategy.Console
 {
     public class InventoryWrapper : IEnumerable<IProduct>
     {
-        public InventoryManagementApproach _managementApproach;
-        public List<IProduct> Products;
-        public IEnumerator<IProduct> enumerator;
-
+        private InventoryManagementApproach _managementApproach;
+        private List<IProduct> Products;
+        private IEnumerator<IProduct> enumerator;
         public InventoryWrapper(InventoryManagementApproach managementApproach)
         {
             _managementApproach = managementApproach;
             Products = new List<IProduct>();
         }
-
         public void Add(IProduct product)
         {
             Products.Add(product);
         }
-
         public IEnumerator<IProduct> GetEnumerator()
         {
             if (_managementApproach == InventoryManagementApproach.FirstInFirstOut)
@@ -35,14 +32,12 @@ namespace InventoryStrategy.Console
             {
                 throw new InvalidOperationException("Invalid inventory management approach.");
             }
-
             return enumerator;
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-
     }
 
 }
