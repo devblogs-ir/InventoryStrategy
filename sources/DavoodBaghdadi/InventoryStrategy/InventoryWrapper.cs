@@ -7,9 +7,7 @@ namespace ConsoleApp;
 public class InventoryWrapper : IEnumerable<Product>
 {
     public InventoryManagementApproach _managementApproach;
-
     public List<Product> Products;
-    public IEnumerator<Product>? enumerator;
 
     public InventoryWrapper(InventoryManagementApproach managementApproach)
     {
@@ -24,25 +22,16 @@ public class InventoryWrapper : IEnumerable<Product>
 
     public IEnumerator<Product> GetEnumerator()
     {
-        if (_managementApproach == InventoryManagementApproach.FirstInFirstOut)
+        switch (_managementApproach)
         {
-            enumerator = new FIFOEnumerator(Products);
+            case InventoryManagementApproach.LastInFirstOut:
+                return new LIFOEnumerator(Products);
+            default: return new FIFOEnumerator(Products);
         }
-        else if (_managementApproach == InventoryManagementApproach.LastInFirstOut)
-        {
-            enumerator = new LIFOEnumerator(Products);
-        }
-        else
-        {
-            throw new InvalidOperationException("Invalid inventory management approach.");
-        }
-
-        return enumerator;
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        throw new NotImplementedException();
     }
-
 }
