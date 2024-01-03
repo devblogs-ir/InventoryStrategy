@@ -3,11 +3,13 @@ using InventoryStrategy.Models.Enums;
 using System.Collections;
 
 namespace InventoryStrategy;
-
+//
+// Summary:
+//     Gets ManagementApproach and iterates the list accordingly
 public class InventoryWrapper<T> : IEnumerable<T>
 {
-    private InventoryManagementApproach _managementApproach;
-    private List<T> _list;
+    private readonly InventoryManagementApproach _managementApproach;
+    private readonly List<T> _list;
     public InventoryWrapper(InventoryManagementApproach managementApproach)
     {
         _managementApproach = managementApproach;
@@ -19,18 +21,13 @@ public class InventoryWrapper<T> : IEnumerable<T>
     }
     public IEnumerator<T> GetEnumerator()
     {
+        IEnumerator<T> enumerator = null!;
         if (_managementApproach is InventoryManagementApproach.LastInFirstOut)
-        {
-            LIFOEnumerator<T> enumerator = new(_list);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            enumerator = new LIFOEnumerator<T>(_list);
         if (_managementApproach is InventoryManagementApproach.FirstInFirstOut)
-        {
-            FIFOEnumerator<T> enumerator = new(_list);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            enumerator = new FIFOEnumerator<T>(_list);
+        while (enumerator.MoveNext())
+            yield return enumerator.Current;
     }
 
     IEnumerator IEnumerable.GetEnumerator()

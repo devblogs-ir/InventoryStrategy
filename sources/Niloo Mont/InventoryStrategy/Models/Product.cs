@@ -1,5 +1,7 @@
 ﻿namespace InventoryStrategy.Models;
-
+//
+// Summary:
+//     Base Product
 public class Product
 {
     public int Code { get; set; }

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 
 namespace InventoryStrategy.Enumerators;
-
+//
+// Summary:
+//     An implementation for IEnumerator<T> which iterates the list in LIFO manner
 public class LIFOEnumerator<T> : IEnumerator<T>
 {
     private readonly List<T> _list;
     private int _index;
     private T? _current;
     private bool _isDisposed;
+
     public LIFOEnumerator(List<T> list)
     {
         _list = list;
@@ -15,6 +18,7 @@ public class LIFOEnumerator<T> : IEnumerator<T>
         _current = default;
         _isDisposed = false;
     }
+
     public T Current
     {
         get { return _current; }
@@ -30,7 +34,6 @@ public class LIFOEnumerator<T> : IEnumerator<T>
             _isDisposed = true;
         }
     }
-
     public bool MoveNext()
     {
         List<T> localList = _list;
@@ -42,7 +45,6 @@ public class LIFOEnumerator<T> : IEnumerator<T>
         }
         return false;
     }
-
     public void Reset()
     {
         _index = _list.Count - 1;
