@@ -5,27 +5,32 @@ namespace ConsoleApp.Enumerators;
 
 public class FIFOEnumerator : IEnumerator<Product>
 {
+    private List<Product> products;
+    private int currentIndex;
+
     public FIFOEnumerator(List<Product> products)
     {
-        
+        this.products = products;
+        currentIndex = -1;
     }
 
-    public Product Current => throw new NotImplementedException();
+    public Product Current => products[currentIndex];
 
-    object IEnumerator.Current => throw new NotImplementedException();
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        products.Clear();
     }
 
     public bool MoveNext()
     {
-        throw new NotImplementedException();
+        currentIndex++;
+        return currentIndex < products.Count;
     }
 
     public void Reset()
     {
-        throw new NotImplementedException();
+        currentIndex = -1;
     }
 }
