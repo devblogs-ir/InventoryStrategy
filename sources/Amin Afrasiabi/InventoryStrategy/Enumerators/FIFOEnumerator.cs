@@ -2,12 +2,13 @@
 
 namespace InventoryStrategy.Enumerators;
 
-public class FIFOEnumerator<T> : IEnumerator<T>
+public class FIFOEnumerator<T> : IEnumerator<T> where T : class
 {
     private readonly List<T> _list;
     private int _index;
     private int _size;
     private bool _disposed;
+
     public FIFOEnumerator(List<T> list)
     {
         ArgumentNullException.ThrowIfNull(nameof(list));
@@ -39,7 +40,6 @@ public class FIFOEnumerator<T> : IEnumerator<T>
             _list.Clear();
             _size = 0;
             _index = 0;
-
         }
         _disposed = true;
     }
@@ -55,8 +55,5 @@ public class FIFOEnumerator<T> : IEnumerator<T>
         return false;
     }
 
-    public void Reset()
-    {
-        _index = -1;
-    }
+    public void Reset() => _index = -1;
 }

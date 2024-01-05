@@ -2,12 +2,13 @@
 
 namespace InventoryStrategy.Enumerators;
 
-public class LIFOEnumerator<T> : IEnumerator<T>, IDisposable
+public class LIFOEnumerator<T> : IEnumerator<T>, IDisposable where T : class
 {
     private readonly List<T> _list;
     private int _index;
     private int _size;
     private bool _disposed;
+
     public LIFOEnumerator(List<T> list)
     {
         ArgumentNullException.ThrowIfNull(nameof(list));
@@ -39,7 +40,6 @@ public class LIFOEnumerator<T> : IEnumerator<T>, IDisposable
             _list.Clear();
             _size = 0;
             _index = 0;
-
         }
         _disposed = true;
     }
@@ -54,8 +54,6 @@ public class LIFOEnumerator<T> : IEnumerator<T>, IDisposable
         return false;
     }
 
-    public void Reset()
-    {
-        _index = _size;
-    }
+    public void Reset() => _index = _size;
+
 }
