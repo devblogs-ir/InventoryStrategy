@@ -4,28 +4,24 @@ using System.Collections;
 
 namespace InventoryStrategy;
 
-public class InventoryWrapper<T>(InventoryManagementApproach managementApproach) : IEnumerable<T>
+public class InventoryWrapper<T>(InventoryManagementApproach managementApproach) : IEnumerable<T> where T : class
 {
-    public InventoryManagementApproach _managementApproach = managementApproach;
-    public List<T> Products = [];
+    private readonly InventoryManagementApproach _managementApproach = managementApproach;
+    private readonly List<T> _genericList = [];
 
-    public void Add(T item)
-    {
-        Products.Add(item);
-    }
+    public InventoryManagementApproach ManagementApproach => _managementApproach;
+
+    public void Add(T item) => _genericList.Add(item);
 
     public IEnumerator<T> GetEnumerator()
     {
-        IEnumerator<T> enumeratorStrategy = null!;
-        switch (_managementApproach)
+        IEnumerator<T> enumeratorStrategy = ManagementApproach switch
         {
-            case InventoryManagementApproach.LastInFirstOut:
-                enumeratorStrategy = new LIFOEnumerator<T>(Products);
-                break;
-            case InventoryManagementApproach.FirstInFirstOut:
-                enumeratorStrategy = new FIFOEnumerator<T>(Products);
-                break;
-        }
+            InventoryManagementApproach.LastInFirstOut => new LIFOEnumerator<T>(_genericList),
+            InventoryManagementApproach.FirstInFirstOut => new FIFOEnumerator<T>(_genericList),
+            _ => throw new NotSupportedException("Strategy Not Supported"),
+        };
+
         while (enumeratorStrategy.MoveNext())
         {
             yield return enumeratorStrategy.Current;
