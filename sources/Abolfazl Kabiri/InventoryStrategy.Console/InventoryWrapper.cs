@@ -2,42 +2,32 @@
 using InventoryStrategy.Console.Models;
 using System.Collections;
 
-namespace InventoryStrategy.Console
+namespace InventoryStrategy.Console;
+public class InventoryWrapper<T> : IEnumerable<T>
 {
-    public class InventoryWrapper : IEnumerable<IProduct>
+    private InventoryManagementApproach _managementApproach;
+    private IEnumerator<T> enumerator;
+    private List<T> Products;
+
+    public InventoryWrapper(InventoryManagementApproach managementApproach)
     {
-        private InventoryManagementApproach _managementApproach;
-        private List<IProduct> Products;
-        private IEnumerator<IProduct> enumerator;
-        public InventoryWrapper(InventoryManagementApproach managementApproach)
-        {
-            _managementApproach = managementApproach;
-            Products = new List<IProduct>();
-        }
-        public void Add(IProduct product)
-        {
-            Products.Add(product);
-        }
-        public IEnumerator<IProduct> GetEnumerator()
-        {
-            if (_managementApproach == InventoryManagementApproach.FirstInFirstOut)
-            {
-                enumerator = new FIFOEnumerator(Products);
-            }
-            else if (_managementApproach == InventoryManagementApproach.LastInFirstOut)
-            {
-                enumerator = new LIFOEnumerator(Products);
-            }
-            else
-            {
-                throw new InvalidOperationException("Invalid inventory management approach.");
-            }
-            return enumerator;
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        _managementApproach = managementApproach;
+        Products = new List<T>();
     }
+
+    public void Add(T product) => Products.Add(product);
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        enumerator = _managementApproach switch
+        {
+            InventoryManagementApproach.FirstInFirstOut => new FifoEnumerator<T>(Products),
+            InventoryManagementApproach.LastInFirstOut => new LifoEnumerator<T>(Products),
+            _ => throw new InvalidOperationException("Invalid inventory management approach.")
+        };
+        return enumerator;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 }

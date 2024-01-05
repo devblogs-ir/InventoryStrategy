@@ -1,8 +1,6 @@
-﻿namespace InventoryStrategy.Console.Models
+﻿namespace InventoryStrategy.Console.Models;
+public enum InventoryManagementApproach
 {
-    public enum InventoryManagementApproach
-    {
-        LastInFirstOut,
-        FirstInFirstOut
-    }
+    LastInFirstOut,
+    FirstInFirstOut
 }
