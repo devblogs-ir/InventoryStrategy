@@ -14,7 +14,7 @@ public class Program
             new(4, "IPhone8")
         };
 
-        Console.WriteLine($"Enumerating products using a stack approach ({mobileInventory._managementApproach}):");
+        Console.WriteLine($"Enumerating products using a stack approach ({mobileInventory.ManagementApproach}):");
         foreach (var mobile in mobileInventory)
         {
             Console.WriteLine(mobile);
@@ -28,7 +28,7 @@ public class Program
             new(4, "Dell")
         };
 
-        Console.WriteLine($"Enumerating products using a queue approach ({laptopInventory._managementApproach}):");
+        Console.WriteLine($"Enumerating products using a queue approach ({laptopInventory.ManagementApproach}):");
         foreach (var laptop in laptopInventory)
         {
             Console.WriteLine(laptop);
