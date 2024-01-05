@@ -4,26 +4,26 @@ namespace InventoryStrategy.Console.Enumerators;
 
 public class FifoEnumerator<T> : IEnumerator<T>
 {
-    private List<T> _products;
-    private int currentIndex;
+    private List<T> _items;
+    private int _currentIndex;
 
     public FifoEnumerator(List<T> products)
     {
-        _products = products;
+        _items = products;
         currentIndex = -1;
     }
 
-    public T Current => _products[currentIndex];
+    public T Current => _items[_currentIndex];
 
     object IEnumerator.Current => Current;
 
-    public void Dispose() => _products.Clear();
+    public void Dispose() => _items.Clear();
 
     public bool MoveNext()
     {
         currentIndex++;
-        return currentIndex < _products.Count;
+        return currentIndex < _items.Count;
     }
 
-    public void Reset() => currentIndex = -1;
+    public void Reset() => _currentIndex = -1;
 }

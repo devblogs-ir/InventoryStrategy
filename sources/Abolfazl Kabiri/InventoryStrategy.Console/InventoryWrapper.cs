@@ -6,26 +6,26 @@ namespace InventoryStrategy.Console;
 public class InventoryWrapper<T> : IEnumerable<T>
 {
     private InventoryManagementApproach _managementApproach;
-    private IEnumerator<T> enumerator;
-    private List<T> Products;
+    private IEnumerator<T> _enumerator;
+    private List<T> _items;
 
     public InventoryWrapper(InventoryManagementApproach managementApproach)
     {
         _managementApproach = managementApproach;
-        Products = new List<T>();
+        _items = new List<T>();
     }
 
-    public void Add(T product) => Products.Add(product);
+    public void Add(T product) => _items.Add(product);
 
     public IEnumerator<T> GetEnumerator()
     {
-        enumerator = _managementApproach switch
+        _enumerator = _managementApproach switch
         {
-            InventoryManagementApproach.FirstInFirstOut => new FifoEnumerator<T>(Products),
-            InventoryManagementApproach.LastInFirstOut => new LifoEnumerator<T>(Products),
+            InventoryManagementApproach.FirstInFirstOut => new FifoEnumerator<T>(_items),
+            InventoryManagementApproach.LastInFirstOut => new LifoEnumerator<T>(_items),
             _ => throw new InvalidOperationException("Invalid inventory management approach.")
         };
-        return enumerator;
+        return _enumerator;
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
